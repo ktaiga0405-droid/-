@@ -1,0 +1,26 @@
+{% extends 'layout.html' %}
+{% block content %}
+    <h1>今日の日付: {{ today }}</h1>
+    <h1>課題期限一覧</h1>
+    {% for cls in class_names %}
+        <p> {{ cls.class_name }} - {{ cls.task_type }}</p>
+        <p>期限日: {{ cls.deadlines }}</p>
+        <p>残り日数: {{ (cls.deadlines - today).days if cls.deadlines else '期限日未設定' }}
+            {% if cls.group_id is not none %}
+                {% if progress[cls.id]['my_completion'] %}
+                    <span class="completed">✓完了済み</span>
+                {% else %}
+                    <span class="incomplete">未完了</span>
+                {% endif %}
+                <p>残り{{ progress[cls.id]['rest'] }}人です</p>
+            {% endif %}
+            <form action="/destroy/{{ cls.id }}" method="post" style="display: inline;">
+                <button type="submit">完了</button>
+            </form>
+            <form action="/edit/{{ cls.id }}" method="get" style="display: inline;">
+                <button type="submit">編集</button>
+            </form > 
+            </p>
+    {% endfor %}
+        
+{% endblock %}

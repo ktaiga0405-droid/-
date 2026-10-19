@@ -1,0 +1,48 @@
+{% extends 'layout.html' %}
+{% block content %}
+    
+    <h1>グループ</h1>
+    <p>選択中: {{ selected_group_name }}</p>
+    <p>招待コード: {{ invite_code }}</p>
+    <h2>個人用に切り替え</h2>
+    <form method="post" action="/personal">
+        <button type="submit">切り替え</button>
+    </form>
+    <p>※グループ用に切り替えるにはグループを選択してください。</p>
+    <h2>作成</h2>
+    <form method="post" action="/create_group">
+        <label for="group_name">グループ名:</label>
+        <input type="text" id="group_name" name="group_name" required>
+        <button type="submit">作成</button>
+    </form>
+    <h2>参加</h2>
+    <ul>
+        <form method="post" action="/join_group">
+            <li>
+                <label for="group_name">グループ名:</label>
+                <input type="text" id="group_name" name="group_name" required>
+            </li>
+            <li>
+                <label for="invite_code">招待コード:</label>
+                <input type="text" id="invite_code" name="invite_code" required>
+            </li>
+                <button type="submit">参加</button>
+            </form>
+    </ul>
+    <h2>所属一覧</h2>
+    <ul>
+        {% for group in groups %}
+            <li>
+                {{ group.group_name }}
+                <form method="post" action="/select_group/{{ group.id }}" style="display:inline;">
+                    <button type="submit">選択</button>
+                </form>
+                </form>
+                <form method="post" action="/leave/{{ group.id }}" style="display:inline;">
+                    <button type="submit">退会</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+    <p>{{ message }}</p>
+{% endblock %}

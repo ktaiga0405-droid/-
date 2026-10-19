@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8">
+        <title>task management</title>
+        <style>body {padding: 10px;}</style>
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    </head>
+    <body>
+        {% with messages=get_flashed_messages() %}
+            {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li>{{message}}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        {% endwith %}
+        {% block content %}
+        {% endblock %}
+        <nav class="bottom-nav">
+        <a href="/home">ホーム</a>
+        <a href="/list">一覧</a>
+        <a href="/group">グループ</a>
+        {% if 'user_id' in session %}
+            <form action="/logout" method="post">
+                <button>ログアウト</button>
+            </form>
+        {% else %}
+            <a href="/acount_open">アカウント作成</a>
+        {% endif %}
+        </nav>
+    </body>
+</html>

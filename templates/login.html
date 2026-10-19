@@ -1,0 +1,13 @@
+{% extends 'layout.html' %}
+{% block content %}
+    
+    <h1>ログイン</h1>
+    <form action="/login" method="post">
+        <p>ユーザー名</p>
+        <input type="text" name="username" placeholder="ユーザー名を入力してください">
+        <p>パスワード</p>
+        <input type="password" name="password" placeholder="パスワードを入力してください">
+        <button type="submit">ログイン</button>
+    </form>
+    <p>{{ error }}</p>
+{% endblock %}

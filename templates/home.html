@@ -1,0 +1,32 @@
+{% extends 'layout.html' %}
+{% block content %}
+    <h1>ホーム</h1>
+    <p>ようこそ {{ username }} さん!</p>
+    <h2>今日の日付: {{ today }}</h2>
+    <p>選択中：{{ group_name }}</p>
+    {% if members %}
+        <h2>グループメンバー</h2>
+        <ul>
+            {% for member in members %}
+                <li>{{ member.username }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <h2>新規登録</h2>
+    <form action="/add_list" method="post">
+        <p>授業名</p>
+        <input type="text" name="class_name" placeholder="授業名を入力してください">
+        <p>内容</p>
+        <br>
+            <label><input type="radio" name="option" value="小テスト">小テスト</label>
+            <label><input type="radio" name="option" value="中間／期末試験">中間／期末試験</label>
+            <label><input type="radio" name="option" value="レポート">レポート</label>
+            <label><input type="radio" name="option" value="プレゼンテーション">プレゼンテーション</label>
+        </br>
+        <p>期限日</p>
+        <label for="deadline"></label>
+        <input type="date" name="deadline" id="deadline">
+        <p></p>
+        <button type="submit">登録</button>
+    </form>
+{% endblock %}

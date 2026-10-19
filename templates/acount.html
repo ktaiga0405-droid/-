@@ -1,0 +1,12 @@
+{% extends 'layout.html' %}
+{% block content %}
+    <h1>アカウント作成</h1>
+    <form action="/acount" method="post">
+        <p>ユーザー名</p>
+        <input type="text" name="username" placeholder="ユーザー名を入力してください">
+        <p>パスワード</p>
+        <input type="password" name="password" placeholder="パスワードを入力してください">
+        <button type="submit">アカウント作成</button>
+        <p><a href="/login_open">ログインはこちら</a></p>
+    </form>
+{% endblock %}
