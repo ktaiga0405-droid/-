@@ -1,32 +1,85 @@
 {% extends 'layout.html' %}
 {% block content %}
-    <h1>ホーム</h1>
-    <p>ようこそ {{ username }} さん!</p>
-    <h2>今日の日付: {{ today }}</h2>
-    <p>選択中：{{ group_name }}</p>
-    {% if members %}
-        <h2>グループメンバー</h2>
-        <ul>
-            {% for member in members %}
-                <li>{{ member.username }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
-    <h2>新規登録</h2>
-    <form action="/add_list" method="post">
-        <p>授業名</p>
-        <input type="text" name="class_name" placeholder="授業名を入力してください">
-        <p>内容</p>
-        <br>
-            <label><input type="radio" name="option" value="小テスト">小テスト</label>
-            <label><input type="radio" name="option" value="中間／期末試験">中間／期末試験</label>
-            <label><input type="radio" name="option" value="レポート">レポート</label>
-            <label><input type="radio" name="option" value="プレゼンテーション">プレゼンテーション</label>
-        </br>
-        <p>期限日</p>
-        <label for="deadline"></label>
-        <input type="date" name="deadline" id="deadline">
-        <p></p>
-        <button type="submit">登録</button>
-    </form>
+    <link rel="stylesheet"
+        href="{{ url_for('static', filename='home.css') }}">
+    <main class="home_container">
+        <div class="home-header">
+            <div class="welcome-row">
+                <p>ようこそ {{ username }} さん!</p>
+                <p>今日の日付: {{ today }}</p>
+            </div>
+        </div>
+        <div class="home-row">
+            <section class="home">
+                {% if group_name %}
+                    <div class="group-title">
+                        <p class="font-color-change">グループ：{{ group_name }}</p>
+                        <form method="post" action="/personal">
+                            <button class="personal-btn" type="submit">個人用へ</button>
+                        </form>
+                    </div>
+                    {% if members %}
+                        <p class="font-color-change">参加メンバー</p>
+                        <div class="member-list">
+                            {% for member in members %}
+                                <div class="member">
+                                    <i class="fa-regular fa-circle-user"></i>
+                                    <p>{{ member.username }}</p>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% else %}
+                    <p class="font-color-change">個人用</p>
+                {% endif %}
+                <p class="border-second">課題状況</p>
+                <div class="incompleted-tasks">
+                    <p1>未完了の課題</p1>
+                    <p2>{{ incomplete_result }}</p2>
+                </div>
+                <p class="upcoming-task-title">直近の課題</p>
+                <div class="upcoming-task">                   
+                    {% if upcoming_task %}
+                        <p>{{upcoming_task.class_name}}:{{upcoming_task.task_type}}</p>
+                        {% if (upcoming_task.deadlines-today).days == 0 %}    
+                            <p>今日まで</p>
+                        {% elif (upcoming_task.deadlines-today).days > 0%}
+                            <p>あと{{(upcoming_task.deadlines-today).days}}日</p>
+                        {% endif %}
+                    {% else %}
+                        <p>直近の課題はありません</p>
+                    {% endif %}
+                </div>
+                <form action="/list">
+                    <button class="to-list-btn">課題一覧へ→</button>
+                </form>
+            </section>
+            
+            <section class="new_task_registration">
+                <h2>＋新規登録</h2>
+                <form action="/add_list" method="post">
+                    <div class="class-title">
+                        <p>授業名</p>
+                        <input type="text" name="class_name" placeholder="授業名を入力してください">
+                    </div>
+                    <div class="class-content">
+                        <p>内容</p>
+                        <div class="select_radio">
+                            <label><input type="radio" name="option" value="小テスト">小テスト</label>
+                            <label><input type="radio" name="option" value="中間／期末試験">中間／期末試験</label>
+                            <label><input type="radio" name="option" value="レポート">レポート</label>
+                            <label><input type="radio" name="option" value="プレゼンテーション">プレゼンテーション</label>
+                        </div>
+                    </div>
+                    <div class="class-deadlines">
+                        <p>期限日</p>
+                        <label for="deadline"></label>
+                        <input type="date" name="deadline" id="deadline">
+                    </div>
+                    <button type="submit">登録</button> 
+                </form>
+            </section>
+        </div>
+    </main>
+    
 {% endblock %}

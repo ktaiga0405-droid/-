@@ -1,0 +1,97 @@
+.acount-container{
+    max-width:900px;
+    margin: 0 auto;
+    padding: 25px 20px 0px;
+}
+
+.acount-header{
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h1{
+    color: grey;
+}
+
+.acount-card {
+    display: flex;
+    flex-direction: column;
+    margin: 10px auto;
+    max-width: 400px;
+    background-color: white;
+    border-radius: 12px;
+    align-items: center;
+    box-shadow:0 2px 8px rgba(0,0,0,0.05)
+}
+
+.acount-card form {
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+    width: 300px;
+}
+
+.acount-card p{
+    margin:20px auto 0;
+    font-weight: bold;
+    color: grey;
+}
+
+.acount-card input {
+    margin:10px auto;
+    padding:5px;
+    box-sizing: border-box;
+    width: 100%;
+    height:30px;
+    font-size: 15px;
+    border:solid 3px skyblue;
+    border-radius: 12px;
+
+}
+
+.acount-card button{
+    margin-bottom: 10px;
+    height:40px;
+    font-size: large;
+    font-weight: bold;
+    color: white;
+    background-color: skyblue;
+    border:solid 3px skyblue;
+    border-radius: 12px;
+}
+
+.acount-card button:hover{
+    background-color: white;
+    color:skyblue;
+}
+
+.enter-login{
+    border-top: solid 1px grey;
+}
+
+.enter-login button{
+    text-align: center;
+    margin: 10px;
+    margin-bottom: 20px;
+    color: white;
+    background-color: #268ca9;
+    border: solid 3px #268ca9;
+    padding: auto 20px;
+}
+
+.enter-login button:hover{
+    background-color: white;
+    color:#268ca9;
+}
+
+@media (max-width: 600px){
+    .acount-card form{
+        width: auto;
+    }
+
+    .acount-card button{
+        font-size: medium;
+    }
+}

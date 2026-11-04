@@ -1,0 +1,332 @@
+.group-container{
+    max-width:900px;
+    margin: 15px auto 0;
+    padding: 25px 20px 0px;
+}
+
+.invite-code-card{
+    display:flex;
+    flex-direction: column;
+    padding: 10px 8px;
+    margin-bottom: 10px;
+    border-radius: 12px;
+    background-color:  #dcfce7;
+    color: #16a34a;
+    font-weight: bold;
+    gap: 5px;
+}
+
+.invite-code-card p{
+    margin: 0;
+}
+
+.invite-code{
+    display: flex;
+    margin-top: 5px;
+    padding: 5px;
+    padding-left: 0;
+    align-items: center;
+}
+
+.invite-code-content{
+    display: flex;
+    align-items: center;
+}
+
+.invite-code-content button{
+    font-size: smaller;
+    font-weight: bold;
+    background-color: skyblue;
+    color: white;
+    border: none;
+    padding: 5px;
+    margin: auto 5px;
+    border-radius: 12px;
+}
+
+.invite-code button:hover{
+    background-color: #268ca9;
+}
+
+.group-row{
+    display:flex;
+    gap:15px;
+}
+
+.create-group,
+.join-group
+{
+    display:flex;
+    flex:1;
+    padding:10px;
+    background-color: white;
+    flex-direction: column;
+    margin-bottom: 10px;
+    border-radius: 12px;
+}
+
+.create-group form,
+.join-group form{
+    display:flex;
+    flex: 1;
+    flex-direction: column;
+}
+
+.group-list{
+    display:flex;
+    background-color: white;
+    flex-direction: column;
+    padding:10px;
+    margin-bottom: 10px;
+    border-radius: 12px;
+    gap:10px;
+    color: grey;
+}
+
+.create-group,
+.join-group,
+.group-list{
+    box-shadow:0 2px 8px rgba(0,0,0,0.05);
+}
+
+.create-group h2,
+.join-group h2
+{
+    margin:5px;
+    color: grey;
+}
+
+.create-group p,
+.join-group p
+{
+    margin: 5px;
+    font-weight: bold;
+    color: grey;
+}
+
+.create-group p{
+    margin-top: auto;
+}
+
+.create-group input[type="text"],
+.join-group input[type="text"]
+{
+    height:40px;
+    width: 100%;
+    margin: 10px 0;
+    font-size: larger;
+    box-sizing: border-box;
+    border: 3px solid skyblue;
+    border-radius: 12px;
+}
+
+.create-group button,
+.join-group button
+{
+    height:50px;
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    margin-top: auto;
+    color:white;
+    font-size: larger;
+    font-weight: bold;
+    background-color: skyblue;
+    border: none;
+    border-radius: 5px;
+}
+
+.create-group button:hover,
+.join-group button:hover,
+.selected-group-card-button-select:hover,
+.group-list-card button:hover
+{
+    background-color: #268ca9;
+}
+
+.selected-group-card-button-leave:hover{
+    background-color:coral;
+}
+
+.selected-group-card{
+    border: solid 3px skyblue;
+    border-radius: 12px;
+    padding: 10px 10px 0;
+}
+
+.selected-group-card-title{
+    display:flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: solid 3px skyblue;
+}
+
+.selected-group-card p{
+    color:grey;
+    font-weight: bold;
+}
+
+.selected-group-card-title span{
+    background-color: #dcfce7;
+    color:#16a34a;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.selected-group-card-button{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.group-list-card{
+    display:flex;
+    justify-content: space-between;
+    background-color: azure;
+    border:solid 3px skyblue;
+    border-radius: 12px;
+    padding:0 10px;
+    color:grey;
+    font-weight: bold;
+}
+
+.selected-group-card-button-leave{
+    height: 50px;
+    margin:10px 5px;
+    padding: 10px;
+    border-radius: 12px;
+    font-weight: bold;
+    font-size: large;
+    color:red;
+    border:none;
+    background-color: pink;
+}
+
+.group-list-card button{
+    height: 50px;
+    width: 80%;
+    margin:10px;
+    border-radius: 12px;
+    font-weight: bold;
+    font-size: large;
+    color: white;
+    border: none;
+    background-color: skyblue;
+}
+
+dialog:not([open]){
+    display: none;
+}
+
+dialog{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    border: solid 3px #268ca9;
+    border-radius: 12px;
+    background-color: white;
+}
+
+dialog h3{
+    padding: 0%;
+    margin: 0;
+    color: #268ca9;
+}
+
+dialog p{
+    margin-top: 5px;
+}
+
+.dialog-button{
+    display: flex;
+    gap: 20px;
+}
+
+.dialog-button button[type="button"]{
+    display: flex;
+    flex: 1;
+    font-weight: bold;
+    background-color: white;
+    border: solid 3px #268ca9;
+    border-radius: 5px;
+    color: #268ca9;
+}
+
+.dialog-button button[type="button"]:hover{
+    background-color: #268ca9;
+    color: white;
+}
+
+.dialog-button button[type="submit"]{
+    display: flex;
+    flex: 1;
+    font-weight: bold;
+    background-color: #FEE2E2;
+    border: solid 3px red;
+    border-radius: 5px;
+    color:red;
+}
+
+.dialog-button button[type="submit"]:hover{
+    background-color: red;
+    color:#FEE2E2;
+}
+
+dialog::backdrop{
+    background: rgba(0,0,0,0.4);
+}
+
+@media (max-width: 600px){
+    .group-row{
+        flex-direction: column;
+    }
+
+    .invite-code{
+        flex-direction: column;
+        align-items: flex-start;
+        font-size: small;
+    }
+
+    .invite-code-card p{
+        font-size: small;
+    }
+
+    .invite-code-content button{
+        font-size: smaller;
+    }
+
+    .invite-code-content button:hover{
+        background-color: skyblue;
+        color: white;
+    }
+
+    .group-list h2{
+        margin: 5px;
+    }
+
+    .group-list,
+    .group-list-card,
+    .group-list-card button,
+    .selected-group-card,
+    .selected-group-card-title span,
+    .selected-group-card-button-leave,
+    .create-group,
+    .join-group{
+        font-size: small;
+    }
+
+    .group-list-card{
+        align-items: center;
+    }
+
+    .group-list-card button{
+        height:40px;
+    }
+
+    .selected-group-card-button-leave{
+        height:40px;
+        margin: 5px 0;
+    }
+}

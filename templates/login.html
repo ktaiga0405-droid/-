@@ -1,13 +1,25 @@
 {% extends 'layout.html' %}
 {% block content %}
-    
-    <h1>ログイン</h1>
-    <form action="/login" method="post">
-        <p>ユーザー名</p>
-        <input type="text" name="username" placeholder="ユーザー名を入力してください">
-        <p>パスワード</p>
-        <input type="password" name="password" placeholder="パスワードを入力してください">
-        <button type="submit">ログイン</button>
-    </form>
-    <p>{{ error }}</p>
+    <link rel="stylesheet"
+        href="{{ url_for('static', filename='login.css') }}">
+    <main class="login-container">
+        <section class="login-header">
+            <h1>ログイン</h1>
+        </section>
+        <section class="login-card">
+            <form action="/login" method="post">
+                <p>ユーザー名</p>
+                <input type="text" name="username" placeholder="ユーザー名を入力してください">
+                <p>パスワード</p>
+                <input type="password" name="password" placeholder="パスワードを入力してください">
+                <p></p>
+                <button type="submit">ログイン</button>
+            </form>
+            <div class="return-acount">
+                <form action="/acount_open">
+                    <button>アカウント作成へ</button>
+                </form>
+            </div>
+        </section>
+    </main>
 {% endblock %}

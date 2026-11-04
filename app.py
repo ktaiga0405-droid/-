@@ -49,21 +49,33 @@ class Task_completion(db.Model):
 @app.route('/home')
 def home_page():
     if 'user_id' not in session:
-        return redirect('/login_open')
+        return redirect('/acount_open')
     today = date.today()
     username = None
     group_name = None
     members = None
+    upcoming_task = None
+    incomplete_count=0
     if 'user_id' in session:
         user = User.query.get(session['user_id'])
         if user:
             username = user.username
+
     if 'group_id' in session:
         group = User_group.query.get(session['group_id'])
+        upcoming_task = Class.query.filter_by(group_id=session['group_id'], is_completed=False).order_by(Class.deadlines).first()
         if group:
             group_name = group.group_name
             members = User.query.join(Group_member).filter(Group_member.group_id == group.id).all()
-    return render_template('home.html', username=username, today=today, group_name=group_name, members=members if 'group_id' in session else None)
+            incomplete_count=Class.query.filter_by(group_id=group.id, is_completed=False).count()
+    else:
+        upcoming_task = Class.query.filter_by(user_id=session['user_id'], group_id=None, is_completed=False).filter(Class.deadlines >= today).order_by(Class.deadlines).first()
+        incomplete_count=Class.query.filter_by(user_id=session['user_id'],group_id=None, is_completed=False).count()
+    if incomplete_count==0:
+        incomplete_result="すべて完了！"
+    else:
+        incomplete_result=str(incomplete_count)+"件"
+    return render_template('home.html', username=username, today=today, group_name=group_name, members=members if 'group_id' in session else None, incomplete_result=incomplete_result, upcoming_task=upcoming_task)
 
 @app.route('/')
 def home():
@@ -72,10 +84,11 @@ def home():
 @app.route('/group')
 def group():
     if 'user_id' not in session:
-        return render_template('login.html', error='ログインしてください。')
+        return redirect('acount_open')
     groups = User_group.query.filter(User_group.id.in_(Group_member.query.filter(Group_member.user_id == session['user_id']).with_entities(Group_member.group_id))).all()
     invite_code = None
     selected_group_name = None
+    selected_group_id = session.get('group_id')
     if 'group_id' in session:
         group = User_group.query.get(session['group_id'])
         if group is not None:
@@ -83,16 +96,17 @@ def group():
             if member:
                 invite_code = group.invite_code
                 selected_group_name = group.group_name
+                selected_group_id=group.id
             else:
                 session.pop('group_id', None)
         else:
             session.pop('group_id', None)
-    return render_template('group.html', groups=groups, invite_code=invite_code, selected_group_name=selected_group_name)
+    return render_template('group.html', groups=groups, invite_code=invite_code, selected_group_name=selected_group_name, selected_group_id=selected_group_id)
 
 @app.route('/personal', methods=['POST'])
 def switch_to_personal():
     if 'user_id' not in session:
-        return render_template('login.html', error='ログインしてください。')
+        return redirect('acount_open')
     session.pop('group_id', None)
     return redirect('/home')
 
@@ -113,7 +127,7 @@ def create_group():
 
     group_name = request.form['group_name'].strip()
     if not group_name:
-        flash('グループ名を入力してください')
+        flash('※グループ名を入力してください')
         return redirect('/group')
 
     new_group = User_group(group_name=group_name)
@@ -138,11 +152,11 @@ def join_group():
     invite_code = request.form['invite_code'].strip()
 
     if not group_name:
-        flash('グループ名を入力してください')
+        flash('※グループ名を入力してください')
         return redirect('/group')
     
     if not invite_code:
-        flash('招待コードを入力してください')
+        flash('※招待コードを入力してください')
         return redirect('/group')
 
     group = User_group.query.filter_by(group_name=group_name, invite_code=invite_code).first()
@@ -170,6 +184,7 @@ def leave_group(group_id):
 
         if session.get('group_id') == group_id:
             session.pop('group_id', None)
+            flash("グループを退会しました")
 
     return redirect('/group')
 
@@ -185,14 +200,14 @@ def acount():
     username = request.form['username'].strip()
     password = request.form['password'].strip()
     if not username:
-        flash('ユーザーネームを入力してください')
+        flash('※ユーザーネームを入力してください')
         return redirect('/acount_open')
     if not password:
-        flash('パスワードを入力してください')
+        flash('※パスワードを入力してください')
         return redirect('/acount_open')
     existing_user=User.query.filter_by(username=username).first()
     if existing_user:
-        flash('このユーザー名は既に入力されています')
+        flash('※このユーザー名は既に入力されています')
         return redirect('/acount_open')
     
     hashed_password=generate_password_hash(password)
@@ -213,18 +228,19 @@ def login():
     username = request.form['username'].strip()
     password = request.form['password'].strip()
     if not username:
-        flash('ユーザー名を入力してください')
+        flash('※ユーザー名を入力してください')
         return redirect('/login_open')
     if not password:
-        flash('パスワードを入力してください')
+        flash('※パスワードを入力してください')
         return redirect('/login_open')
     user = User.query.filter_by(username=username).first()
     if user and check_password_hash(user.password,password):
         session.clear()
         session['user_id'] = user.id
-        return render_template('home.html', username=username, today=date_today)
+        return redirect('/home')
     else:
-        return render_template('login.html', error='ユーザー名またはパスワードが正しくありません。')
+        flash('※ユーザー名またはパスワードが正しくありません')
+        return redirect('/login_open')
 
 @app.route('/logout',methods=['POST'])
 def logout():
@@ -235,7 +251,7 @@ def logout():
 @app.route('/list')
 def list():
     if 'user_id' not in session:
-        return render_template('login.html', error='ログインしてください。')
+        return redirect('acount_open')
     today = date.today()
     progress={}
     if session.get('group_id') is not None:
@@ -260,13 +276,16 @@ def add_class():
     task_type = request.form.get('option')
     deadlines = request.form.get('deadline')
     if not class_name:
-        flash('授業名を入力してください')
+        flash('※授業名を入力してください')
         return redirect('/home')
     if len(class_name)>100:
-        flash('授業名が長すぎます')
+        flash('※授業名が長すぎます')
         return redirect('/home')
     if not task_type:
-        flash('課題を選択してください')
+        flash('※課題を選択してください')
+        return redirect('/home')
+    if not deadlines:
+        flash('※期限日を選択してください')
         return redirect('/home')
     new_class = Class(class_name=class_name, task_type=task_type, deadlines=deadlines, user_id=session['user_id'], group_id=session.get('group_id'))
     db.session.add(new_class)
@@ -282,18 +301,21 @@ def delete_class(id):
 
     task=db.session.get(Class,id)
     if task is None:
-        return '完了する権限がありません。',403
+        flash('完了する権限がありません。')
+        return redirect(f'/destroy/{id}')
 
     if task.group_id is None:
         if task.user_id != user_id:
-            return '完了する権限がありません。',403
+            flash('完了する権限がありません。')
+            return redirect(f'/destroy/{id}')
     else:
         member = Group_member.query.filter_by(user_id=user_id, group_id=task.group_id).first()
         if member is None:
-            return '完了する権限がありません。',403
+            flash('完了する権限がありません。')
+            return redirect(f'/destroy/{id}')
 
-    exsisting=Task_completion.query.filter_by(task_id=id, user_id=user_id).first()
-    if exsisting:
+    existing=Task_completion.query.filter_by(task_id=id, user_id=user_id).first()
+    if existing:
         return redirect('/list')
     completion = Task_completion(task_id=id, user_id=user_id)
     db.session.add(completion)
@@ -303,13 +325,13 @@ def delete_class(id):
         member_count=Group_member.query.filter_by(group_id=task.group_id).count()
         completion_count=Task_completion.query.join(Group_member, Task_completion.user_id == Group_member.user_id).filter(Task_completion.task_id == id,Group_member.group_id == task.group_id).count()
         if member_count > 0 and completion_count == member_count:
-            message = f"グループの全員が課題「{task.class_name}」を完了しました。"
+            message = f"グループの全員が課題「{task.class_name}」を完了しました!!"
             task.is_completed = True
         else:
             remaining_count = member_count - completion_count
-            message = f"課題「{task.class_name}」を完了しました。残り{remaining_count}人が未完了です。"
+            message = f"課題「{task.class_name}」を完了しました! 残り{remaining_count}人が未完了です!"
     else:
-        message = f"課題「{task.class_name}」を完了しました。"
+        message = f"課題「{task.class_name}」を完了しました!!"
         task.is_completed = True
     
     db.session.commit()
@@ -324,7 +346,8 @@ def edit_class(id):
         return render_template('login.html', error='ログインしてください。')
     cls = get_current_task(id)
     if cls is None:
-        return '編集する権限がありません。',403
+        flash('完了する権限がありません。')
+        return redirect('/home')
     return render_template('edit.html', cls=cls)
 
 @app.route('/edit/task/<int:id>', methods=['POST'])
@@ -333,10 +356,23 @@ def update_class(id):
         return render_template('login.html', error='ログインしてください。')
     cls = get_current_task(id)
     if cls is None:
-        return '編集する権限がありません。',403
-    cls.class_name = request.form['class_name']
-    cls.task_type = request.form.get('option')
-    cls.deadlines = request.form.get('deadline')
+        flash('完了する権限がありません。')
+        return redirect(f'/edit/{id}')
+    class_name = request.form['class_name'].strip()
+    task_type = request.form.get('option')
+    deadlines = request.form.get('deadline')
+    if not class_name:
+        flash("※授業名を入力してください")
+        return redirect(f'/edit/{id}')
+    if not task_type:
+        flash("※課題を選択してください")
+        return redirect(f'/edit/{id}')
+    if not deadlines:
+        flash('※期限日を選択してください')
+        return redirect(f'/edit/{id}')
+    cls.class_name = class_name
+    cls.task_type = task_type
+    cls.deadlines = deadlines
     db.session.commit()
     return render_template('edit.html', cls=cls, message='課題が更新されました。')
 

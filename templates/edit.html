@@ -1,21 +1,27 @@
 {% extends 'layout.html' %}
 {% block content %}
-    <h1>編集</h1>
-    <form action="/edit/task/{{ cls.id }}" method="post">
-        <p>授業名</p>
-        <input type="text" name="class_name" value="{{ cls.class_name }}" placeholder="授業名を入力してください">
-        <p>内容</p>
-        <br>
-            <label><input type="radio" name="option" value="小テスト" >小テスト</label>
-            <label><input type="radio" name="option" value="中間／期末試験" >中間／期末試験</label>
-            <label><input type="radio" name="option" value="レポート" >レポート</label>
-            <label><input type="radio" name="option" value="プレゼンテーション" >プレゼンテーション</label>
-        </br>
-        <p>期限日</p>
-        <label for="deadline"></label>
-        <input type="date" name="deadline" id="deadline" value="{{ cls.deadlines }}">
-        <p></p>
-        <button type="submit">編集</button>
-        <p>{{message}}</p>
-    </form>
+    <link rel="stylesheet"
+        href="{{ url_for('static', filename='edit.css') }}">
+    <main class="edit-container">
+        <h1>編集</h1>
+        <section class="edit-task-registration">
+            <form action="/edit/task/{{ cls.id }}" method="post">
+                <p>授業名</p>
+                <input type="text" name="class_name" value="{{ cls.class_name }}" placeholder="授業名を入力してください">
+                <p>内容</p>
+                <div class="edit-select-radio">
+                    <label><input type="radio" name="option" value="小テスト" >小テスト</label>
+                    <label><input type="radio" name="option" value="中間／期末試験" >中間／期末試験</label>
+                    <label><input type="radio" name="option" value="レポート" >レポート</label>
+                    <label><input type="radio" name="option" value="プレゼンテーション" >プレゼンテーション</label>
+                </div>
+                <p>期限日</p>
+                <label for="deadline"></label>
+                <input type="date" name="deadline" id="deadline" value="{{ cls.deadlines }}">
+                <p></p>
+                <button type="submit">編集</button>
+                <p>{{message}}</p>
+            </form>
+        </section>
+    </main>
 {% endblock %}

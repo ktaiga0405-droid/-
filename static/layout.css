@@ -1,0 +1,98 @@
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    box-shadow:0 2px 8px rgba(0,0,0,0.05);
+    padding: 10px 0 5px;
+    background-color: white;
+}
+
+.bottom-nav a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    flex-direction: column;
+    color: skyblue;
+    border: none;
+    font-size: smaller;
+}
+
+.bottom-nav a i{
+    font-size: 13px;
+    text-decoration: none;
+    border: 2px solid skyblue;
+    background-color: white;
+    padding: 15px;
+    border-radius: 50px;
+    color: skyblue;
+}
+
+.bottom-nav a.active i{
+    background-color: skyblue;
+    color: white;
+}
+
+.bottom-nav form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.bottom-nav button{
+    background-color: white;
+    border: 2px solid skyblue;
+    color: skyblue;
+    border-radius: 50px;
+    box-shadow: none;
+    padding: 14px 17px;
+    font-size: 13px;
+}
+
+.bottom-nav form span{
+    color: skyblue;
+    font-size: smaller;
+}
+
+body{
+    background-color: azure;
+    margin-bottom: 100px;
+}
+
+.home_tag{
+    position: fixed;
+    top:0;
+    left: 0;
+    width: 100%;
+    padding: 0px 25px;
+
+    display: flex;
+    align-items: center;
+    background-color:skyblue;
+    margin:auto;
+}
+
+
+
+.home_tag h1,
+.home_tag i{
+    color:white;
+    font-size: 30px;
+    margin: 0;
+}
+
+.message{
+    margin-top: 50px;
+    margin-bottom: 0;
+    background-color: #FEE2E2;
+    border-radius: 12px;
+    color: red;
+    font-weight: bold;
+    padding: 10px;
+    align-items: center;
+}
+
+
+

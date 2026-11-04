@@ -1,26 +1,66 @@
 {% extends 'layout.html' %}
 {% block content %}
-    <h1>今日の日付: {{ today }}</h1>
-    <h1>課題期限一覧</h1>
-    {% for cls in class_names %}
-        <p> {{ cls.class_name }} - {{ cls.task_type }}</p>
-        <p>期限日: {{ cls.deadlines }}</p>
-        <p>残り日数: {{ (cls.deadlines - today).days if cls.deadlines else '期限日未設定' }}
-            {% if cls.group_id is not none %}
-                {% if progress[cls.id]['my_completion'] %}
-                    <span class="completed">✓完了済み</span>
-                {% else %}
-                    <span class="incomplete">未完了</span>
-                {% endif %}
-                <p>残り{{ progress[cls.id]['rest'] }}人です</p>
-            {% endif %}
-            <form action="/destroy/{{ cls.id }}" method="post" style="display: inline;">
-                <button type="submit">完了</button>
-            </form>
-            <form action="/edit/{{ cls.id }}" method="get" style="display: inline;">
-                <button type="submit">編集</button>
-            </form > 
-            </p>
-    {% endfor %}
-        
+    <link rel="stylesheet"
+        href="{{ url_for('static', filename='list.css') }}">
+    <main class="list-conteiner">
+        <h1>課題期限一覧</h1>
+        <section class="task-card-list">
+            {% for cls in class_names %}
+                <div class="task-card">                   
+                    <div class="task-card-content">
+                        <div class="task-card-content-completion">
+                            <p> {{ cls.class_name }} - {{ cls.task_type }}</p>
+                            {% if cls.group_id is not none %}
+                                {% if progress[cls.id]['my_completion'] %}
+                                    <span class="completed">✓完了済み</span>
+                                {% else %}
+                                    <span class="incomplete">未完了</span>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                        <div class="task-card-content-deadlines-and-button">
+                            {% if cls.deadlines %}
+                                <div class="{% set days = (cls.deadlines - today).days %}
+                                            {% if days <=0 %}
+                                                deadlines-danger
+                                            {% elif days <= 3 %}
+                                                deadlines-soon
+                                            {% else %}
+                                                deadlines-safe
+                                            {% endif %}">
+                                    {% if (cls.deadlines - today).days < 0 %}
+                                        <strong>×</strong>
+                                        <p>期限切れ</p>
+                                    {% else %}
+                                        <strong>{{ (cls.deadlines - today).days if cls.deadlines else '期限日未設定' }}</strong>
+                                        <p>残り日数</p>
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+                            <div class="task-card-content-deadlines">
+                                <p>期限日: {{ cls.deadlines }}</p>
+                                <div class="task-card-content-button">
+                                    {% if cls.group_id is none %}
+                                        <form action="/destroy/{{ cls.id }}" method="post" style="display: inline;" class="complete">
+                                            <button type="submit">完了</button>
+                                        </form>
+                                        <form action="/edit/{{ cls.id }}" method="get" style="display: inline;" class="edit">
+                                            <button type="submit">編集</button>
+                                        </form >
+                                    {% elif not progress[cls.id]['my_completion'] and cls.group_id is not none %}
+                                        <form action="/destroy/{{ cls.id }}" method="post" style="display: inline;" class="complete">
+                                            <button type="submit">完了</button>
+                                        </form>
+                                        <form action="/edit/{{ cls.id }}" method="get" style="display: inline;" class="edit">
+                                            <button type="submit">編集</button>
+                                        </form >
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </section>
+    </main>
 {% endblock %}

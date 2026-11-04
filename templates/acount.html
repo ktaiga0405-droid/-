@@ -1,12 +1,25 @@
 {% extends 'layout.html' %}
 {% block content %}
-    <h1>アカウント作成</h1>
-    <form action="/acount" method="post">
-        <p>ユーザー名</p>
-        <input type="text" name="username" placeholder="ユーザー名を入力してください">
-        <p>パスワード</p>
-        <input type="password" name="password" placeholder="パスワードを入力してください">
-        <button type="submit">アカウント作成</button>
-        <p><a href="/login_open">ログインはこちら</a></p>
-    </form>
+    <link rel="stylesheet"
+        href="{{ url_for('static', filename='acount.css') }}">
+    <main class="acount-container">
+        <section class="acount-header">
+            <h1>アカウント作成</h1>
+        </section>
+        <section class="acount-card">
+            <form action="/acount" method="post">
+                <p>ユーザー名</p>
+                <input type="text" name="username" placeholder="ユーザー名を入力してください">
+                <p>パスワード</p>
+                <input type="password" name="password" placeholder="パスワードを入力してください">
+                <p></p>
+                <button type="submit">アカウント作成</button>      
+            </form>
+            <div class="enter-login">
+                <form action="/login_open">
+                    <button>ログインはこちら</button>
+                </form>
+            </div>
+        </section>
+    </main>
 {% endblock %}

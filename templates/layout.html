@@ -3,32 +3,51 @@
     <head>
         <meta charset="utf-8">
         <title>task management</title>
+        <meta name="viewport" content="width=device-width", inital-scale="1.0">
         <style>body {padding: 10px;}</style>
-        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='layout.css') }}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     </head>
     <body>
+        <nav class="home_tag">
+            <i class="fa-solid fa-book-open-reader"></i>
+            <h1>タスたす</h1>
+        </nav>
         {% with messages=get_flashed_messages() %}
             {% if messages %}
-            <ul>
                 {% for message in messages %}
-                    <li>{{message}}</li>
+                    <div class="message">{{message}}</div>
                 {% endfor %}
-            </ul>
             {% endif %}
         {% endwith %}
         {% block content %}
         {% endblock %}
         <nav class="bottom-nav">
-        <a href="/home">ホーム</a>
-        <a href="/list">一覧</a>
-        <a href="/group">グループ</a>
-        {% if 'user_id' in session %}
-            <form action="/logout" method="post">
-                <button>ログアウト</button>
-            </form>
-        {% else %}
-            <a href="/acount_open">アカウント作成</a>
-        {% endif %}
+            <a href="/home" class="{% if request.path == '/home' %}active{% endif %}">
+                <i class="fa-solid fa-house"></i>
+                <span>ホーム</span>
+            </a>
+            <a href="/list" class="{% if request.path == '/list' %}active{% endif %}">
+                <i class="fa-solid fa-list"></i>
+                <span>一覧</span>
+            </a>
+            <a href="/group" class="{% if request.path == '/group' %}active{% endif %}">
+                <i class="fa-solid fa-users"></i>
+                <span>グループ</span>
+            </a>
+            {% if 'user_id' in session %}
+                <form action="/logout" method="post">
+                    <button>
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                    </button>
+                    <span>ログアウト</span>
+                </form>
+            {% else %}
+                <a href="/acount_open" class="{% if request.path == '/acount_open' %}active{% endif %}">
+                    <i class="fa-solid fa-user-plus"></i>
+                    <span>アカウント作成</span>
+                </a>
+            {% endif %}
         </nav>
     </body>
 </html>

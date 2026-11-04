@@ -1,0 +1,193 @@
+.list-container{
+    max-width:900px;
+    margin: 0 auto;
+    padding: 25px 20px 0px;
+}
+
+h1{
+    margin-top: 50px;
+    margin-left: 5px;
+    margin-bottom: 0;
+    padding: 5px;
+    color: grey;
+}
+
+.task-card-list{
+    display: flex;
+    gap:15px;
+}
+
+.task-card{
+    display: flex;
+    width: 100%;
+    background-color: white;
+    margin: 5px;
+    padding:0 5px;
+    border-radius: 12px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.05);
+}
+
+.task-card-content{
+    flex: 8;
+}
+
+.task-card-content-completion{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.task-card-content-completion p{
+    font-weight: bold;
+    color: grey;
+}
+
+.completed{
+    background-color: #dcfce7;
+    color:#16a34a;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.incomplete{
+    background-color: #FFF1D6;
+    color: #B7791F;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.deadlines-danger,
+.deadlines-soon,
+.deadlines-safe,
+.task-card-content{
+    flex-direction: column;
+    display: flex;
+    margin: 5px;
+    padding: 10px;
+}
+
+.deadlines-danger{
+    align-items: center;
+    background-color: #FEE2E2;
+    border-radius: 12px;
+}
+
+.deadlines-danger strong{
+    font-size: 32px;
+    font-weight: bolder;
+    color: #DC2626;
+    margin: auto;
+}
+
+.deadlines-danger p{
+    margin-top: auto;
+    color: #DC2626;
+}
+
+.deadlines-soon{
+    align-items: center;
+    background-color: #FFF1D6;
+    border-radius: 12px;
+}
+
+.deadlines-soon strong{
+    font-size: 32px;
+    font-weight: bolder;
+    color: #B7791F;
+    margin-top: auto;
+}
+
+.deadlines-soon p{
+    margin-top: auto;
+    color: #B7791F;
+}
+
+.deadlines-safe{
+    align-items: center;
+    background-color: #DCFCE7;
+    border-radius: 12px;
+}
+
+.deadlines-safe strong{
+    font-size: 32px;
+    font-weight: bolder;
+    color: #16803D;
+    margin-top: auto;
+}
+
+.deadlines-safe p{
+    margin-top: auto;
+    color: #16803D;
+}
+
+.task-card-content-deadlines-and-button{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.task-card-content-deadlines{
+    display:flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 5px;
+}
+
+.task-card-content-deadlines p{
+    color: grey;
+}
+
+.task-card-content-button{
+    display:flex;
+}
+.complete button,
+.edit button
+{
+    margin: 5px;
+    font-size: 14px;
+    padding: 5px 10px;
+    border-radius: 20px;
+    background-color: white;
+    border: 3px solid skyblue;
+    color:skyblue;
+}
+
+.complete button:hover,
+.edit button:hover
+{
+    background-color: skyblue;
+    color: white;
+}
+
+.task-card-content p{
+    margin: 5px;
+}
+
+@media(max-width:600px){
+    .deadlines-danger,
+    .deadlines-soon,
+    .deadlines-safe
+    {
+        padding: 5px;
+    }
+
+    .deadlines-danger strong,
+    .deadlines-soon strong,
+    .deadlines-safe strong
+    {
+    font-size: 28px;
+    }
+
+    .deadlines-danger p,
+    .deadlines-soon p,
+    .deadlines-safe p
+    {
+        font-size: 14px;
+    }
+
+    
+}
