@@ -265,6 +265,12 @@
         font-size: medium;
         padding-left: 10px;
     }
+
+    .new_task_registration input[type="date"]{
+        font-size: medium;
+        padding-left: 10px;
+        max-width: 100%;
+    }
 }
 
 

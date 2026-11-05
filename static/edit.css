@@ -83,4 +83,11 @@
         max-width: 100%;
         padding: 0 10px;
     }
+
+    .edit-task-registration input[type=text],
+    .edit-task-registration input[type=date]{
+        font-size: medium;
+        padding-left: 10px;
+        max-width: 100%;
+    }
 }
