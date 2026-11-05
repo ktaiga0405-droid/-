@@ -26,6 +26,7 @@
 {
     display: flex;
     flex:1;
+    min-width: 0%;
     padding: 10px;
     flex-direction: column;
     background-color: white;
@@ -150,6 +151,15 @@
     margin-bottom: 5px;
 }
 
+.new_task_registration form{
+    display:flex;
+    flex-direction: column;
+    flex:1;
+    width: 100%;
+    min-width: 0%;
+    box-sizing: border-box;
+}
+
 .new_task_registration h2{
     margin-top: 10px;
     color: grey;
@@ -266,10 +276,22 @@
         padding-left: 10px;
     }
 
+    .new_task_registration,
+    .class-deadlines
+    {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0%;
+        box-sizing: border-box;
+    }
+
     .new_task_registration input[type="date"]{
         font-size: medium;
         padding-left: 10px;
+        width: 100%;
         max-width: 100%;
+        min-width: 0%;
+
     }
 }
 

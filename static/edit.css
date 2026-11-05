@@ -15,7 +15,9 @@
 .edit-task-registration{
     display: flex;
     padding: 0 20px;
+    width: 50%;
     max-width: 50%;
+    min-width: 0%;
     flex-direction: column;
     background-color: white;
     border-radius: 12px;
@@ -25,6 +27,9 @@
 .edit-task-registration form{
     display: flex;
     flex: 1;
+    width: 100%;
+    min-width: 0%;
+    box-sizing: border-box;
     flex-direction: column;
 }
 
@@ -80,14 +85,18 @@
 
 @media (max-width: 768px){
     .edit-task-registration{
+        width: 100%;
         max-width: 100%;
-        padding: 0 10px;
+        min-width: 0%;
+        box-sizing: border-box;
     }
 
     .edit-task-registration input[type=text],
     .edit-task-registration input[type=date]{
         font-size: medium;
         padding-left: 10px;
+        width: 100%;
         max-width: 100%;
+        min-width: 0%;
     }
 }
