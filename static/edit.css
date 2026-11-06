@@ -107,8 +107,8 @@
     .edit-task-registration input[type=date]{
         font-size: medium;
         padding-left: 10px;
-        width: 90%;
-        max-width: 90%;
+        width: 95%;
+        max-width: 95%;
         min-width: 0%;
     }
 }
