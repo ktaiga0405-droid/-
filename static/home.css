@@ -278,6 +278,9 @@
     }
 
     .new_task_registration input[type="text"]{
+        width: 80%;
+        max-width: 80%;
+        min-width: 0%;
         font-size: medium;
         padding-left: 10px;
     }
@@ -294,8 +297,8 @@
     .new_task_registration input[type="date"]{
         font-size: medium;
         padding-left: 10px;
-        width: 100%;
-        max-width: 100%;
+        width: 80%;
+        max-width: 80%;
         min-width: 0%;
 
     }
