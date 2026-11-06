@@ -81,9 +81,6 @@
 }
 
 @media (max-width: 600px){
-    .login-container{
-        padding: 25px 0px 0px;
-    }
 
     .login-card form{
         width: auto;
