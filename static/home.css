@@ -241,6 +241,10 @@
 }
 
 @media (max-width:600px){
+    .home_container{
+        padding: 25px 0px 0px;
+    }
+
     .home-row{
         flex-direction: column;
     }
@@ -267,6 +271,8 @@
     }
 
     .select_radio{
+        flex-direction: column;
+        align-items: flex-start;
         font-size: small;
         gap:8px;
     }
