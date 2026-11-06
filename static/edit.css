@@ -96,12 +96,19 @@
         box-sizing: border-box;
     }
 
-    .edit-task-registration input[type=text],
+    .edit-task-registration input[type=text]{
+        font-size: medium;
+        padding-left: 10px;
+        width: 100%;
+        max-width: 100%;
+        min-width: 0%;
+    }
+
     .edit-task-registration input[type=date]{
         font-size: medium;
         padding-left: 10px;
-        width: 80%;
-        max-width: 80%;
+        width: 90%;
+        max-width: 90%;
         min-width: 0%;
     }
 }
