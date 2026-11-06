@@ -168,6 +168,10 @@ h1{
 }
 
 @media(max-width:600px){
+    .list-container{
+        padding: 25px 0px 0px;
+    }
+
     .deadlines-danger,
     .deadlines-soon,
     .deadlines-safe

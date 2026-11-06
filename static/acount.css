@@ -87,6 +87,10 @@ h1{
 }
 
 @media (max-width: 600px){
+    .acount-container{
+        padding: 25px 0px 0px;
+    }
+
     .acount-card form{
         width: auto;
     }

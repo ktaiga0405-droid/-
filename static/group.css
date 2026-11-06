@@ -279,6 +279,10 @@ dialog::backdrop{
 }
 
 @media (max-width: 600px){
+    .group-container{
+        padding: 25px 0px 0px;
+    }
+
     .group-row{
         flex-direction: column;
     }
