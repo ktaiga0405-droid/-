@@ -131,6 +131,10 @@
     margin-bottom: 5px;
 }
 
+.upcoming-task p{
+    max-width: 70%;
+}
+
 .font-color-change,
 .border-second,
 .upcoming-task-title{
