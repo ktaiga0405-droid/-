@@ -10,8 +10,10 @@ https://tasutasu.onrender.com
 
 ###ホーム画面
 ![ホーム画面](home.png)
+
 ###課題一覧画面
 ![課題一覧画面](list.png)
+
 ###グループ画面
 ![グループ画面](group.png)
 
