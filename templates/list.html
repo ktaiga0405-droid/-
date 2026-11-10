@@ -31,6 +31,9 @@
                                     {% if (cls.deadlines - today).days < 0 %}
                                         <strong>×</strong>
                                         <p>期限切れ</p>
+                                    {% elif (cls.deadlines - today).days == 0 %}
+                                        <strong>0</strong>
+                                        <p>今日まで</p>
                                     {% else %}
                                         <strong>{{ (cls.deadlines - today).days if cls.deadlines else '期限日未設定' }}</strong>
                                         <p>残り日数</p>

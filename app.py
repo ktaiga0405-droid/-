@@ -49,7 +49,7 @@ class Task_completion(db.Model):
 @app.route('/home')
 def home_page():
     if 'user_id' not in session:
-        return redirect('/acount_open')
+        return redirect('/login_open')
     today = date.today()
     username = None
     group_name = None
@@ -63,7 +63,7 @@ def home_page():
 
     if 'group_id' in session:
         group = User_group.query.get(session['group_id'])
-        upcoming_task = Class.query.filter_by(group_id=session['group_id'], is_completed=False).order_by(Class.deadlines).first()
+        upcoming_task = Class.query.filter_by(group_id=session['group_id'], is_completed=False).filter(Class.deadlines >= today).order_by(Class.deadlines).first()
         if group:
             group_name = group.group_name
             members = User.query.join(Group_member).filter(Group_member.group_id == group.id).all()
@@ -84,7 +84,7 @@ def home():
 @app.route('/group')
 def group():
     if 'user_id' not in session:
-        return redirect('acount_open')
+        return redirect('/login_open')
     groups = User_group.query.filter(User_group.id.in_(Group_member.query.filter(Group_member.user_id == session['user_id']).with_entities(Group_member.group_id))).all()
     invite_code = None
     selected_group_name = None
@@ -106,14 +106,14 @@ def group():
 @app.route('/personal', methods=['POST'])
 def switch_to_personal():
     if 'user_id' not in session:
-        return redirect('acount_open')
+        return redirect('/login_open')
     session.pop('group_id', None)
     return redirect('/home')
 
 @app.route('/select_group/<int:group_id>', methods=['POST'])
 def select_group(group_id):
     if 'user_id' not in session:
-        return render_template('login.html', error='ログインしてください。')
+        return redirect('/login_open')
 
     member = Group_member.query.filter_by(user_id=session['user_id'], group_id=group_id).first()
     if member:
@@ -123,7 +123,7 @@ def select_group(group_id):
 @app.route('/create_group', methods=['POST'])
 def create_group():
     if 'user_id' not in session:
-        return render_template('login.html', error='ログインしてください。')
+        return redirect('/login_open')
 
     group_name = request.form['group_name'].strip()
     if not group_name:
@@ -139,14 +139,13 @@ def create_group():
     db.session.commit()
 
     session['group_id'] = new_group.id
-    groups = User_group.query.filter(User_group.id.in_(Group_member.query.filter(Group_member.user_id == session['user_id']).with_entities(Group_member.group_id))).all()
-
-    return render_template('group.html', groups=groups, message='グループが作成されました。')
+    flash('グループが作成されました。')
+    return redirect('/group')
 
 @app.route('/join_group', methods=['POST'])
 def join_group():
     if 'user_id' not in session:
-        return render_template('login.html', error='ログインしてください。')
+        return redirect('/login_open')
 
     group_name = request.form['group_name'].strip()
     invite_code = request.form['invite_code'].strip()
@@ -163,19 +162,21 @@ def join_group():
     if group:
         member = Group_member.query.filter_by(user_id=session['user_id'], group_id=group.id).first()
         if member:
-            return render_template('group.html', message='既にグループに参加しています。')
+            flash('※既にこのグループに参加しています')
+            return redirect('/group')
         new_member = Group_member(user_id=session['user_id'], group_id=group.id)
         db.session.add(new_member)
         db.session.commit()
         session['group_id'] = group.id
         return redirect('/group')
     else:
-        return render_template('group.html', message='グループが見つかりません。')
+        flash('※グループ名または招待コードが正しくありません')
+        return redirect('/group')
 
 @app.route('/leave/<int:group_id>', methods=['POST'])
 def leave_group(group_id):
     if 'user_id' not in session:
-        return render_template('login.html', error='ログインしてください。')
+        return redirect('/login_open')
 
     group_member = Group_member.query.filter_by(user_id=session['user_id'], group_id=group_id).first()
     if group_member:
@@ -207,7 +208,7 @@ def acount():
         return redirect('/acount_open')
     existing_user=User.query.filter_by(username=username).first()
     if existing_user:
-        flash('※このユーザー名は既に入力されています')
+        flash('※このユーザー名は既に使用されています')
         return redirect('/acount_open')
     
     hashed_password=generate_password_hash(password)
@@ -216,7 +217,7 @@ def acount():
     db.session.add(new_user)
     db.session.commit()
     session['user_id'] = new_user.id
-    return render_template('home.html', username=username, today=today)
+    return redirect('/home')
 
 @app.route('/login_open')
 def login_open():
@@ -251,7 +252,7 @@ def logout():
 @app.route('/list')
 def list():
     if 'user_id' not in session:
-        return redirect('acount_open')
+        return redirect('/login_open')
     today = date.today()
     progress={}
     if session.get('group_id') is not None:
@@ -270,7 +271,7 @@ def list():
 @app.route('/add_list', methods=['POST'])
 def add_class():
     if 'user_id' not in session:
-        return render_template('login.html', error='ログインしてください。')
+        return redirect('/login_open')
     today = date.today()
     class_name = request.form['class_name'].strip()
     task_type = request.form.get('option')
@@ -297,7 +298,7 @@ def add_class():
 def delete_class(id):
     user_id = session.get('user_id')
     if user_id is None:
-        return render_template('login.html', error='ログインしてください。')
+        return redirect('/login_open')
 
     task=db.session.get(Class,id)
     if task is None:
@@ -343,7 +344,7 @@ def delete_class(id):
 @app.route('/edit/<int:id>', methods=['GET', 'POST'])
 def edit_class(id):
     if 'user_id' not in session:
-        return render_template('login.html', error='ログインしてください。')
+        return redirect('/login_open')
     cls = get_current_task(id)
     if cls is None:
         flash('完了する権限がありません。')
@@ -353,7 +354,7 @@ def edit_class(id):
 @app.route('/edit/task/<int:id>', methods=['POST'])
 def update_class(id):
     if 'user_id' not in session:
-        return render_template('login.html', error='ログインしてください。')
+        return redirect('/login_open')
     cls = get_current_task(id)
     if cls is None:
         flash('完了する権限がありません。')
@@ -374,7 +375,8 @@ def update_class(id):
     cls.task_type = task_type
     cls.deadlines = deadlines
     db.session.commit()
-    return render_template('edit.html', cls=cls, message='課題が更新されました。')
+    flash('課題が更新されました')
+    return redirect('/list')
 
 def get_current_task(id):
     user_id = session['user_id']
