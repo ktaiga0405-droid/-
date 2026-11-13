@@ -1,6 +1,6 @@
 from flask import Flask, request, render_template, session, redirect, flash
 from flask_sqlalchemy import SQLAlchemy
-from datetime import date
+from datetime import date, timedelta 
 from werkzeug.security import(generate_password_hash,check_password_hash)
 from dotenv import load_dotenv
 import secrets, os
@@ -10,6 +10,7 @@ load_dotenv()
 app = Flask(__name__)
 app.secret_key = os.environ['SECRET_KEY'] 
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URI']
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=30)
 
 db = SQLAlchemy(app)
 
@@ -240,6 +241,7 @@ def login():
     if user and check_password_hash(user.password,password):
         session.clear()
         session['user_id'] = user.id
+        session.permanent = True 
         return redirect('/home')
     else:
         flash('※ユーザー名またはパスワードが正しくありません')
