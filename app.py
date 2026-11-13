@@ -55,11 +55,13 @@ def home_page():
     group_name = None
     members = None
     upcoming_task = None
+    groups = None
     incomplete_count=0
     if 'user_id' in session:
         user = User.query.get(session['user_id'])
         if user:
             username = user.username
+            groups = User_group.query.filter(User_group.id.in_(Group_member.query.filter(Group_member.user_id == session['user_id']).with_entities(Group_member.group_id))).all()
 
     if 'group_id' in session:
         group = User_group.query.get(session['group_id'])
@@ -75,7 +77,7 @@ def home_page():
         incomplete_result="すべて完了！"
     else:
         incomplete_result=str(incomplete_count)+"件"
-    return render_template('home.html', username=username, today=today, group_name=group_name, members=members if 'group_id' in session else None, incomplete_result=incomplete_result, upcoming_task=upcoming_task)
+    return render_template('home.html', username=username, today=today, group_name=group_name, members=members if 'group_id' in session else None, incomplete_result=incomplete_result, upcoming_task=upcoming_task, groups=groups)
 
 @app.route('/')
 def home():
@@ -118,7 +120,7 @@ def select_group(group_id):
     member = Group_member.query.filter_by(user_id=session['user_id'], group_id=group_id).first()
     if member:
         session['group_id'] = group_id
-    return redirect('/group')
+    return redirect('/home')
 
 @app.route('/create_group', methods=['POST'])
 def create_group():

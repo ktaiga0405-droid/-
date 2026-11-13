@@ -72,6 +72,73 @@
     overflow-y: auto;
 }
 
+.personal-title{
+    border-bottom:solid 2px grey;
+}
+
+.group-list{
+    display: flex;
+    flex-direction: column;
+    max-height: 150px;
+    overflow-y: auto;
+}
+
+.group-list-card{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: azure;
+    border-radius: 12px;
+    padding: 0;
+    margin:3px;
+}
+
+.group-list-card-title{
+    display:flex;
+    align-items: center;
+    margin-left: 10px;
+    color: #268ca9;
+    font-weight: bold;
+    gap: 5px;
+}
+
+.group-list-card-title i{
+    border: solid 2px #268ca9;
+    padding: 5px 4px;
+    border-radius: 50px;
+    font-size:x-small;
+}
+
+.group-list-card p{
+    margin: 0;
+}
+
+.group-list-card button{
+    padding: 4px 8px;
+    margin: 5px 8px;
+    font-weight: bold;
+    background-color: #dcfce7;
+    color:#16a34a;
+    border: solid 2px #16a34a;
+    border-radius: 20px;
+    font-size:10px;
+}
+
+.group-list-card button:hover{
+    background-color: #16a34a;
+    color: #dcfce7;
+}
+
+.none-groups{
+    color: #268ca9;
+    font-weight: bold;
+    background-color: azure;
+    border-radius: 12px;
+    padding: 10px;
+    text-align: center;
+    margin: 5px 0px;
+}
+
 .member{
     display: flex;
     align-items: center;

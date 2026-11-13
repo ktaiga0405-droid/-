@@ -30,7 +30,27 @@
                         </div>
                     {% endif %}
                 {% else %}
-                    <p class="font-color-change">個人用</p>
+                    <div class="personal-title">
+                        <p class="font-color-change">個人用</p>
+                    </div>
+                    <p class="font-color-change">所属グループ</p>
+                    <div class="group-list">
+                        {% if groups %}
+                                {% for group in groups %}
+                                    <div class="group-list-card">
+                                        <div class="group-list-card-title">
+                                            <i class="fa-solid fa-user-group"></i>
+                                            <p>{{ group.group_name }}</p>
+                                        </div>
+                                        <form method="post" action="/select_group/{{ group.id }}" style="display:inline;">
+                                            <button type="submit">選択</button>
+                                        </form>
+                                    </div>
+                                {% endfor %}
+                        {% else %}
+                            <p class="none-groups">所属グループはありません</p>
+                        {% endif %}
+                    </div>
                 {% endif %}
                 <p class="border-second">課題状況</p>
                 <div class="incompleted-tasks">
